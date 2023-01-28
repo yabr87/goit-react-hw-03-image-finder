@@ -3,40 +3,40 @@ import axios from 'axios';
 // import { nanoid } from 'nanoid';
 import Searchbar from './Searchbar';
 import Button from './Button';
-import { URL } from './utils/galleryApi';
+import { getGalleryItems } from './utils/galleryApi';
 import ImageGallery from './ImageGallery';
+
 import { RotatingTriangles } from 'react-loader-spinner';
 
 class App extends Component {
   state = {
+    search: '',
     items: [],
     loading: false,
-    filter: '',
+    page: 1,
   };
 
   componentDidMount() {
-    this.fetchPosts();
+    // this.fetchImage();
     // if (contacts?.length) {
     //   console.log(contacts);
     // }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log("componentDidUpdate")
-    // console.log("prevState", prevState);
-    // console.log("currentState", this.state);
-    // const { contacts } = this.state;
-    // if (prevState.contacts.length !== contacts.length) {
-    //   console.log('Update contacts');
-    // }
+    console.log('Update');
+    const { search, page } = this.state;
+    if (prevState.search !== search || prevState.page !== page) {
+      this.fetchImage();
+    }
   }
-
-  async fetchPosts() {
+  async fetchImage() {
     try {
+      const { search, page } = this.state;
       this.setState({ loading: true });
-      const { data } = await axios.get(URL);
+      const { hits } = await getGalleryItems(search, page);
       this.setState(({ items }) => ({
-        items: [...items, ...data.hits],
+        items: [...items, ...hits],
       }));
     } catch (error) {
       this.setState({ error: error.message });
@@ -45,14 +45,14 @@ class App extends Component {
     }
   }
 
-  onFormSubmit = e => {
-    console.log(e);
+  searchImage = ({ search }) => {
+    this.setState({ search, items: [], page: 1 });
   };
 
   render() {
     return (
       <div className="AppWrapper">
-        <Searchbar onSubmit={this.onFormSubmit} />
+        <Searchbar onSubmit={this.searchImage} />
         <ImageGallery items={this.state.items} />
         <Button type="button" text="load more"></Button>
         <RotatingTriangles
