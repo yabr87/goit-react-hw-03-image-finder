@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-// import { nanoid } from 'nanoid';
-import Searchbar from './Searchbar';
-import Button from './Button';
-import { getGalleryItems } from './utils/galleryApi';
-import ImageGallery from './ImageGallery';
 
+import Searchbar from './Searchbar';
+import ImageGallery from './ImageGallery';
+import Button from './Button';
+
+import { getGalleryItems } from './utils/galleryApi';
 import { RotatingTriangles } from 'react-loader-spinner';
 
 class App extends Component {
@@ -14,6 +13,8 @@ class App extends Component {
     items: [],
     loading: false,
     page: 1,
+    totalPages: 1,
+    perPage: 12,
   };
 
   componentDidMount() {
@@ -30,11 +31,15 @@ class App extends Component {
       this.fetchImage();
     }
   }
+
   async fetchImage() {
     try {
-      const { search, page } = this.state;
+      const { search, page, perPage } = this.state;
       this.setState({ loading: true });
-      const { hits } = await getGalleryItems(search, page);
+      const { hits, totalHits } = await getGalleryItems(search, page, perPage);
+
+      this.getTotalPages(totalHits);
+
       this.setState(({ items }) => ({
         items: [...items, ...hits],
       }));
@@ -45,22 +50,32 @@ class App extends Component {
     }
   }
 
+  getTotalPages(totalHits) {
+    const { perPage } = this.state;
+    let pages = Math.floor(totalHits / 12);
+    pages = totalHits % perPage ? pages + 1 : pages;
+    console.log(pages);
+    this.setState({ totalPages: pages });
+  }
+
   searchImage = ({ search }) => {
     this.setState({ search, items: [], page: 1 });
   };
 
   render() {
+    const { items, page, loading, totalPages } = this.state;
     return (
       <div className="AppWrapper">
         <Searchbar onSubmit={this.searchImage} />
-        <ImageGallery items={this.state.items} />
-        <Button type="button" text="load more"></Button>
+        <ImageGallery items={items} />
+        {!(page === totalPages || !totalPages) && (
+          <Button type="button" text="load more" />
+        )}
         <RotatingTriangles
-          visible={this.state.loading}
-          height="10"
-          width="10"
+          visible={loading}
+          height="100"
+          width="100"
           ariaLabel="rotating-triangels-loading"
-          wrapperStyle={{}}
           wrapperClass="rotating-triangels-wrapper"
         />
       </div>

@@ -77,7 +77,7 @@ a {
   color: inherit;
 }
 
-.rotating-triangels-wrapper {
+/* .rotating-triangels-wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -88,4 +88,4 @@ a {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 1200;
-}
+} */
