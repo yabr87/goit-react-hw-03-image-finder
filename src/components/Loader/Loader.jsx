@@ -15,7 +15,11 @@ const Loading = ({ page, totalPages, loading, onBtnClick }) => {
       />
     );
   }
-  if (page !== totalPages || !totalPages) {
+  if (!totalPages) {
+    return <p>Sorry, but we could not find a match for that search.</p>;
+  }
+
+  if (page !== totalPages) {
     return <Button type="button" text="load more" onBtnClick={onBtnClick} />;
   }
 };

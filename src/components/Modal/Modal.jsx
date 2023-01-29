@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 // import PropTypes from 'prop-types';
@@ -35,11 +36,8 @@ class Modal extends Component {
 }
 
 Modal.propTypes = {
-  // bla: PropTypes.string,
-};
-
-Modal.defaultProps = {
-  // bla: 'test',
+  bigImg: PropTypes.string.isRequired,
+  close: PropTypes.func.isRequired,
 };
 
 export default Modal;

@@ -1,15 +1,15 @@
+import PropTypes from 'prop-types';
 import ImageGalleryItem from './ImageGalleryItem';
-// import PropTypes from 'prop-types';
 import s from './ImageGallery.module.css';
 
 // id, webformatURL, largeImageURL, tags, previewURL
 
 const ImageGallery = ({ items, openModal }) => {
-  const elements = items.map(({ id, tags, previewURL, largeImageURL }) => (
+  const elements = items.map(({ id, tags, webformatURL, largeImageURL }) => (
     <ImageGalleryItem
       key={id}
       tags={tags}
-      webformatURL={previewURL}
+      webformatURL={webformatURL}
       openModal={() => openModal(largeImageURL)}
     />
   ));
@@ -18,11 +18,12 @@ const ImageGallery = ({ items, openModal }) => {
 };
 
 ImageGallery.propTypes = {
-  // bla: PropTypes.string,
+  items: PropTypes.array.isRequired,
+  openModal: PropTypes.func.isRequired,
 };
 
 ImageGallery.defaultProps = {
-  // bla: 'test',
+  items: [],
 };
 
 export default ImageGallery;

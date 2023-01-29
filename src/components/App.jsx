@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
-import Loading from './Loading';
+import Loader from './Loader';
 import Modal from './Modal';
 
 import { getGalleryItems } from './utils/galleryApi';
@@ -83,7 +83,7 @@ class App extends Component {
       <div className="AppWrapper">
         <Searchbar onSubmit={this.searchImage} />
         <ImageGallery items={items} openModal={this.openModal} />
-        <Loading
+        <Loader
           page={page}
           loading={loading}
           totalPages={totalPages}
