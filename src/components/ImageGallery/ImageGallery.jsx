@@ -4,9 +4,14 @@ import s from './ImageGallery.module.css';
 
 // id, webformatURL, largeImageURL, tags, previewURL
 
-const ImageGallery = ({ items }) => {
-  const elements = items.map(({ id, tags, previewURL }) => (
-    <ImageGalleryItem key={id} tags={tags} webformatURL={previewURL} />
+const ImageGallery = ({ items, openModal }) => {
+  const elements = items.map(({ id, tags, previewURL, largeImageURL }) => (
+    <ImageGalleryItem
+      key={id}
+      tags={tags}
+      webformatURL={previewURL}
+      openModal={() => openModal(largeImageURL)}
+    />
   ));
 
   return <ul className={s.ImageGallery}>{elements}</ul>;

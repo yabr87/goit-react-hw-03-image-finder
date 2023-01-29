@@ -1,10 +1,10 @@
 @import-normalize;
 
-html {
-  box-sizing: border-box;
-  width: 100vw;
-  overflow-x: hidden;
-}
+/* html {
+    box-sizing: border-box;
+    width: 100vw;
+    overflow-x: hidden;
+  } */
 
 *,
 *::before,
@@ -25,25 +25,9 @@ body {
 .AppWrapper {
   display: grid;
   grid-template-columns: 1fr;
+  justify-items: center;
   grid-gap: 16px;
   padding-bottom: 24px;
-}
-
-h1,
-h2,
-h3,
-h4,
-p,
-ul {
-  margin: 0;
-  padding: 0;
-}
-
-img,
-svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
 }
 
 h1,
@@ -76,16 +60,3 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
-/* .rotating-triangels-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.1);
-  z-index: 1200;
-} */

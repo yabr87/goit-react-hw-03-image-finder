@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
-import Button from './Button';
+import Loading from './Loading';
+import Modal from './Modal';
 
 import { getGalleryItems } from './utils/galleryApi';
-import { RotatingTriangles } from 'react-loader-spinner';
 
 class App extends Component {
   state = {
@@ -15,14 +15,10 @@ class App extends Component {
     page: 1,
     totalPages: 1,
     perPage: 12,
-  };
 
-  componentDidMount() {
-    // this.fetchImage();
-    // if (contacts?.length) {
-    //   console.log(contacts);
-    // }
-  }
+    showModal: false,
+    imgModal: '',
+  };
 
   componentDidUpdate(prevProps, prevState) {
     console.log('Update');
@@ -62,22 +58,38 @@ class App extends Component {
     this.setState({ search, items: [], page: 1 });
   };
 
+  loadMore = () => {
+    this.setState(({ page }) => ({ page: page + 1 }));
+  };
+
+  openModal = largeImageURL => {
+    this.setState({
+      imgModal: largeImageURL,
+      showModal: true,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      showModal: false,
+      imgModal: '',
+    });
+  };
+
   render() {
-    const { items, page, loading, totalPages } = this.state;
+    const { items, page, loading, totalPages, showModal, imgModal } =
+      this.state;
     return (
       <div className="AppWrapper">
         <Searchbar onSubmit={this.searchImage} />
-        <ImageGallery items={items} />
-        {!(page === totalPages || !totalPages) && (
-          <Button type="button" text="load more" />
-        )}
-        <RotatingTriangles
-          visible={loading}
-          height="100"
-          width="100"
-          ariaLabel="rotating-triangels-loading"
-          wrapperClass="rotating-triangels-wrapper"
+        <ImageGallery items={items} openModal={this.openModal} />
+        <Loading
+          page={page}
+          loading={loading}
+          totalPages={totalPages}
+          onBtnClick={this.loadMore}
         />
+        {showModal && <Modal close={this.closeModal} bigImg={imgModal} />}
       </div>
     );
   }
